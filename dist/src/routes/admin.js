@@ -27,5 +27,4 @@ const express_1 = require("express");
 const ADMIN = __importStar(require("../controlllers/admin"));
 const routes = (0, express_1.Router)();
 routes.post("/login", ADMIN.login);
-routes.post("/add-movie", ADMIN.addMovie);
 exports.default = routes;
