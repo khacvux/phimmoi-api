@@ -10,7 +10,7 @@ import swaggerUi from "swagger-ui-express";
 
 const app: Express = express();
 
-const PORT = config.server.port;
+const PORT = config.server.port || 8000;
 const MONGO_URL = config.mongo.url;
 
 // const swaggerOptions = {
