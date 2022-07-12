@@ -23,7 +23,9 @@ const REGION = process.env.REGION || ''
 
 
 const MONGO = {
-    url: MONGO_URL
+    url: MONGO_URL,
+    username: MONGO_USERNAME,
+    password: MONGO_PASSWORD
 }
 
 const SERVER = {

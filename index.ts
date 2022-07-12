@@ -11,7 +11,10 @@ import swaggerUi from "swagger-ui-express";
 const app: Express = express();
 
 const PORT = config.server.port;
-const MONGO_URL = config.mongo.url;
+const username = config.mongo.username;
+const password = config.mongo.password;
+
+const MONGO_URL = `mongodb+srv://${username}:${password}@phimmoi.2rsmb.mongodb.net`;
 
 // const swaggerOptions = {
 //   definition: {
