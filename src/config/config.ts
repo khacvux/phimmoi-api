@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 dotenv.config();
 
 
-const SERVER_PORT = process.env.SERVER_PORT || 8000
+const SERVER_PORT = process.env.SERVER_PORT || 3000
 const SERVER_HOSTNAME = process.env.SERVER_HOSTNAME || 'phimmoi'
 const NODE_ENV = process.env.NODE_ENV || 'development'
 
