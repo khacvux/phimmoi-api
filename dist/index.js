@@ -21,7 +21,9 @@ const cors_1 = __importDefault(require("cors"));
 const morgan_1 = __importDefault(require("morgan"));
 const app = (0, express_1.default)();
 const PORT = config_1.default.server.port;
-const MONGO_URL = config_1.default.mongo.url;
+const username = config_1.default.mongo.username;
+const password = config_1.default.mongo.password;
+const MONGO_URL = `mongodb+srv://${username}:${password}@phimmoi.2rsmb.mongodb.net`;
 // const swaggerOptions = {
 //   definition: {
 //     openapi: "3.0.0",

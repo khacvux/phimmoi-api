@@ -342,14 +342,23 @@ exports.changePassword = changePassword;
 const setAvatar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const avatar = req.file;
-        const avatarFilename = req.body.avatarFilename || undefined;
         const { id } = req.decodedToken;
-        if (avatarFilename) {
-            yield (0, s3Client_1.deleteFile)({
-                Bucket: config_1.default.bucket.name,
-                Key: avatarFilename,
-            });
-        }
+        user_1.default.findOne({ _id: id }).exec((error, data) => {
+            if (error) {
+                const e = {
+                    successful: false,
+                    message: `Error ${error}`,
+                    data: null,
+                };
+                return res.status(400).json(e);
+            }
+            else if (data === null || data === void 0 ? void 0 : data.avatarFilename) {
+                (0, s3Client_1.deleteFile)({
+                    Bucket: config_1.default.bucket.name,
+                    Key: (data === null || data === void 0 ? void 0 : data.avatarFilename) + "",
+                });
+            }
+        });
         const avatarUrl = yield (0, s3Client_1.uploadFile)(avatar);
         yield user_1.default.findOneAndUpdate({ _id: id }, {
             $set: {

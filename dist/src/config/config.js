@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-const SERVER_PORT = process.env.SERVER_PORT || '8000';
+const SERVER_PORT = process.env.PORT || 3000;
 const SERVER_HOSTNAME = process.env.SERVER_HOSTNAME || 'phimmoi';
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const MONGO_USERNAME = process.env.MONGO_USERNAME || '';
@@ -18,7 +18,9 @@ const BUCKET_ACCESS_KEY = process.env.BUCKET_ACCESS_KEY || '';
 const BUCKET_SECRET_KEY = process.env.BUCKET_SECRET_KEY || '';
 const REGION = process.env.REGION || '';
 const MONGO = {
-    url: MONGO_URL
+    url: MONGO_URL,
+    username: MONGO_USERNAME,
+    password: MONGO_PASSWORD
 };
 const SERVER = {
     hostname: SERVER_HOSTNAME,

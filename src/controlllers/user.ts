@@ -330,15 +330,23 @@ const changePassword = async (req: any, res: Response) => {
 const setAvatar = async (req: any, res: Response) => {
   try {
     const avatar = req.file;
-    const avatarFilename = req.body.avatarFilename || undefined;
     const { id } = req.decodedToken;
 
-    if (avatarFilename) {
-      await deleteFile({
-        Bucket: config.bucket.name,
-        Key: avatarFilename,
-      });
-    }
+    User.findOne({ _id: id }).exec((error, data) => {
+      if (error) {
+        const e: IResponse = {
+          successful: false,
+          message: `Error ${error}`,
+          data: null,
+        };
+        return res.status(400).json(e);
+      } else if (data?.avatarFilename) {
+        deleteFile({
+          Bucket: config.bucket.name,
+          Key: data?.avatarFilename + "",
+        });
+      }
+    });
     const avatarUrl = await uploadFile(avatar);
 
     await User.findOneAndUpdate(
@@ -396,8 +404,6 @@ const changeName = async (req: any, res: Response) => {
     return res.status(400).json(e);
   }
 };
-
-
 
 export {
   login,
