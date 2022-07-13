@@ -37,7 +37,7 @@ const getSignedUrl = async (operation: string, params: objectParams) => {
     //   });
     // });
 
-    const url = `https://${BUCKET_NAME}.s3.${REGION}.amazonaws.com/${params.Key}`;
+    const url = `https://${BUCKET_NAME}.s3.${REGION}.amazonaws.com/${params.Key}`
     return url;
   } catch (error) {
     return error;
