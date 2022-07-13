@@ -161,6 +161,13 @@ const saveToLibrary = (req: any, res: Response) => {
                 if (item._id == idMovie) return idMovie;
               });
               if (filter[0]) {
+                const e: IResponse = {
+                  message: `previously saved movies`,
+                  successful: false,
+                  data: null,
+                };
+                return res.status(400).json(e);
+              } else {
                 User.findOneAndUpdate(
                   { _id: id },
                   { $push: { library: data } }
@@ -181,13 +188,6 @@ const saveToLibrary = (req: any, res: Response) => {
                     return res.status(200).json(response);
                   }
                 });
-              } else {
-                const e: IResponse = {
-                  message: `previously saved movies`,
-                  successful: false,
-                  data: null,
-                };
-                return res.status(400).json(e);
               }
             }
           });
