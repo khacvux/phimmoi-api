@@ -144,16 +144,19 @@ const updatePoster = async (req: any, res: Response) => {
     await deleteFile({
       Bucket: config.bucket.name,
       Key: filename,
-    })
+    });
 
-    const posterUrl = await uploadFile(poster)
-    
-    await Movie.findOneAndUpdate({idMovie}, {
-      $set: {
-        posterFilename: poster.filename,
-        posterUrl
+    const posterUrl = await uploadFile(poster);
+
+    await Movie.findOneAndUpdate(
+      { idMovie },
+      {
+        $set: {
+          posterFilename: poster.filename,
+          posterUrl,
+        },
       }
-    })
+    );
     const response: IResponse = {
       successful: true,
       message: "poster updated",
@@ -173,7 +176,9 @@ const updatePoster = async (req: any, res: Response) => {
 const searchLikeName = async (req: Request, res: Response) => {
   try {
     const keyword = req.params.keyword;
-    const result = await Movie.find({ name: { $regex: keyword } });
+    const result = await Movie.find({ name: { $regex: keyword } }).select(
+      "_id name posterUrl"
+    );
     const response: IResponse = {
       successful: true,
       message: `ok`,
