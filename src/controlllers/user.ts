@@ -139,7 +139,7 @@ const saveToLibrary = (req: any, res: Response) => {
 
     Movie.findOne({ idMovie })
       .select("name posterUrl")
-      .exec(async (error, data) => {
+      .exec(async (error, film) => {
         if (error) {
           const e: IResponse = {
             successful: false,
@@ -170,7 +170,7 @@ const saveToLibrary = (req: any, res: Response) => {
               } else {
                 User.findOneAndUpdate(
                   { _id: id },
-                  { $push: { library: data } }
+                  { $push: { library: film } }
                 ).exec((error) => {
                   if (error) {
                     const e: IResponse = {
