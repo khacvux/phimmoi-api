@@ -155,8 +155,8 @@ const updatePoster = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         yield movie_1.default.findOneAndUpdate({ idMovie }, {
             $set: {
                 posterFilename: poster.filename,
-                posterUrl
-            }
+                posterUrl,
+            },
         });
         const response = {
             successful: true,
@@ -178,7 +178,7 @@ exports.updatePoster = updatePoster;
 const searchLikeName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const keyword = req.params.keyword;
-        const result = yield movie_1.default.find({ name: { $regex: keyword } });
+        const result = yield movie_1.default.find({ name: { $regex: keyword } }).select("_id name posterUrl");
         const response = {
             successful: true,
             message: `ok`,

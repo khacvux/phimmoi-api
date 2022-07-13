@@ -31,9 +31,9 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             data: null,
         };
         if (!existingUser)
-            return res.status(400).json(error);
+            return res.status(200).json(error);
         if (existingUser.admin)
-            return res.status(400).json(error);
+            return res.status(200).json(error);
         //CHECK PASSWORD
         const validPassword = yield bcrypt_1.default.compare(password, existingUser.password);
         //IF NOT CORRECT
@@ -152,7 +152,7 @@ const saveToLibrary = (req, res) => {
         const idMovie = req.params.idmovie;
         movie_1.default.findOne({ idMovie })
             .select("name posterUrl")
-            .exec((error, data) => __awaiter(void 0, void 0, void 0, function* () {
+            .exec((error, film) => __awaiter(void 0, void 0, void 0, function* () {
             if (error) {
                 const e = {
                     successful: false,
@@ -177,7 +177,15 @@ const saveToLibrary = (req, res) => {
                                 return idMovie;
                         });
                         if (filter[0]) {
-                            user_1.default.findOneAndUpdate({ _id: id }, { $push: { library: data } }).exec((error) => {
+                            const e = {
+                                message: `previously saved movies`,
+                                successful: false,
+                                data: null,
+                            };
+                            return res.status(400).json(e);
+                        }
+                        else {
+                            user_1.default.findOneAndUpdate({ _id: id }, { $push: { library: film } }).exec((error) => {
                                 if (error) {
                                     const e = {
                                         successful: false,
@@ -195,14 +203,6 @@ const saveToLibrary = (req, res) => {
                                     return res.status(200).json(response);
                                 }
                             });
-                        }
-                        else {
-                            const e = {
-                                message: `previously saved movies`,
-                                successful: false,
-                                data: null,
-                            };
-                            return res.status(400).json(e);
                         }
                     }
                 });
@@ -369,7 +369,7 @@ const setAvatar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const response = {
             successful: true,
             message: "ok",
-            data: null,
+            data: avatarUrl,
         };
         return res.status(200).json(response);
     }
