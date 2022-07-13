@@ -19,8 +19,8 @@ const login = async (req: Request, res: Response) => {
       message: "Email or password is incorrect",
       data: null,
     };
-    if (!existingUser) return res.status(400).json(error);
-    if (existingUser.admin) return res.status(400).json(error);
+    if (!existingUser) return res.status(200).json(error);
+    if (existingUser.admin) return res.status(200).json(error);
 
     //CHECK PASSWORD
     const validPassword = await bcrypt.compare(password, existingUser.password);
