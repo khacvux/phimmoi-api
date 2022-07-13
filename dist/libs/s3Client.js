@@ -17,6 +17,7 @@ const aws_sdk_1 = require("aws-sdk");
 const config_1 = __importDefault(require("../src/config/config"));
 const fs_1 = __importDefault(require("fs"));
 const REGION = config_1.default.region;
+const BUCKET_NAME = config_1.default.bucket;
 const ACCESS_KEY = config_1.default.bucket.accesskey;
 const SECRET_KEY = config_1.default.bucket.secretkey;
 const s3 = new aws_sdk_1.S3({
@@ -26,11 +27,12 @@ const s3 = new aws_sdk_1.S3({
 });
 const getSignedUrl = (operation, params) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const url = yield new Promise((resolve, reject) => {
-            s3.getSignedUrl(operation, params, (err, url) => {
-                err ? reject(err) : resolve(url);
-            });
-        });
+        // const url = await new Promise((resolve, reject) => {
+        //   s3.getSignedUrl(operation, params, (err, url) => {
+        //     err ? reject(err) : resolve(url);
+        //   });
+        // });
+        const url = `https://${BUCKET_NAME}.s3.${REGION}.amazonaws.com/${params.Key}`;
         return url;
     }
     catch (error) {
