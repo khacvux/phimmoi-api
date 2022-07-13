@@ -19,6 +19,7 @@ interface objectParams {
 }
 
 const REGION = config.region;
+const BUCKET_NAME = config.bucket;
 const ACCESS_KEY = config.bucket.accesskey;
 const SECRET_KEY = config.bucket.secretkey;
 
@@ -30,11 +31,13 @@ const s3 = new S3({
 
 const getSignedUrl = async (operation: string, params: objectParams) => {
   try {
-    const url = await new Promise((resolve, reject) => {
-      s3.getSignedUrl(operation, params, (err, url) => {
-        err ? reject(err) : resolve(url);
-      });
-    });
+    // const url = await new Promise((resolve, reject) => {
+    //   s3.getSignedUrl(operation, params, (err, url) => {
+    //     err ? reject(err) : resolve(url);
+    //   });
+    // });
+
+    const url = `https://${BUCKET_NAME}.s3.${REGION}.amazonaws.com/${params.Key}`;
     return url;
   } catch (error) {
     return error;
