@@ -362,7 +362,7 @@ const setAvatar = async (req: any, res: Response) => {
     const response: IResponse = {
       successful: true,
       message: "ok",
-      data: null,
+      data: avatarUrl,
     };
     return res.status(200).json(response);
   } catch (error) {
