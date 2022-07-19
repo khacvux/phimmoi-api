@@ -19,7 +19,9 @@ routes.post(
   checkAuth,
   MOVIE.add
 );
-
+routes.get("/list", checkAuth, MOVIE.list);
+routes.get("/newest", checkAuth, MOVIE.newest)
+routes.get("/newest/list", checkAuth, MOVIE.top10Newest)
 routes.get("/category/:id", checkAuth, MOVIE.listByCategory);
 routes.delete("/delete/:id", checkAuth, MOVIE.remove);
 routes.get("/info/:id", checkAuth, MOVIE.info);

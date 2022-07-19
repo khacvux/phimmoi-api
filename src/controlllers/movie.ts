@@ -2,7 +2,11 @@ import { Request, Response } from "express";
 import mongoose from "mongoose";
 import IResponse from "../models/response";
 import { deleteFile, uploadFile } from "../../libs/s3Client";
-import Movie, { MovieModel, infoMovieModel } from "../models/movie";
+import Movie, {
+  MovieModel,
+  infoMovieModel,
+  MainListModel,
+} from "../models/movie";
 import Category from "../models/categoryMovie";
 import config from "../config/config";
 
@@ -230,6 +234,116 @@ const listByCategory = async (req: Request, res: Response) => {
   }
 };
 
+const newest = async (req: Request, res: Response) => {
+  try {
+    Movie.findOne()
+      .sort({ _id: -1 })
+      .select("idMovie name description movieUrl posterUrl duration views")
+      .exec((error, data) => {
+        if (error) {
+          const e: IResponse = {
+            successful: false,
+            message: `Error: ${error}`,
+            data: null,
+          };
+          console.log(e);
+          return res.status(400).json(e);
+        } else {
+          const response: IResponse = {
+            successful: true,
+            message: `ok`,
+            data: data,
+          };
+          return res.status(200).json(response);
+        }
+      });
+  } catch (error) {
+    const e: IResponse = {
+      successful: false,
+      message: `Error: ${error}`,
+      data: null,
+    };
+    console.log(e);
+    return res.status(400).json(e);
+  }
+};
+
+const top10Newest = async (req: Request, res: Response) => {
+  try {
+    Movie.find()
+      .sort({ _id: -1 })
+      .limit(10)
+      .select("idMovie name description movieUrl posterUrl duration views")
+      .exec((error, data) => {
+        if (error) {
+          const e: IResponse = {
+            successful: false,
+            message: `Error: ${error}`,
+            data: null,
+          };
+          console.log(e);
+          return res.status(400).json(e);
+        } else {
+          const response: IResponse = {
+            successful: true,
+            message: `ok`,
+            data: data,
+          };
+          return res.status(200).json(response);
+        }
+      });
+  } catch (error) {
+    const e: IResponse = {
+      successful: false,
+      message: `Error: ${error}`,
+      data: null,
+    };
+    console.log(e);
+    return res.status(400).json(e);
+  }
+}
+
+const list = async (req: Request, res: Response) => {
+  try {
+    const listCategory = await Category.find().select("_id name");
+    let mainList: Array<MainListModel> = [];
+    // const promise = new Promise((resolve, reject) => {
+    listCategory.map(async (item) => {
+      const data = await Movie.find({ idCategory: item._id })
+        .select("idMovie name description movieUrl posterUrl duration views")
+        .limit(10);
+      if (data.length) {
+        const object: MainListModel = {
+          name: item.name,
+          list: data,
+        };
+        return mainList.push(object);
+      }
+    });
+
+    setTimeout(() => {
+      const response: IResponse = {
+        successful: true,
+        message: `ok`,
+        data: mainList,
+      };
+      return res.status(200).json(response);
+    }, 1000);
+    // });
+    // promise.then(() => {
+
+    // });
+  } catch (error) {
+    const e: IResponse = {
+      successful: false,
+      message: `Error: ${error}`,
+      data: null,
+    };
+    console.log(e);
+    return res.status(400).json(e);
+  }
+};
+
 const info = async (req: Request, res: Response) => {
   try {
     const idMovie = req.params.id;
@@ -275,4 +389,7 @@ export {
   searchLikeName,
   listByCategory,
   info,
+  list,
+  newest,
+  top10Newest
 };

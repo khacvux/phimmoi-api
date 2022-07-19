@@ -19,7 +19,7 @@ interface objectParams {
 }
 
 const REGION = config.region;
-const BUCKET_NAME = config.bucket;
+const BUCKET_NAME = config.bucket.name;
 const ACCESS_KEY = config.bucket.accesskey;
 const SECRET_KEY = config.bucket.secretkey;
 

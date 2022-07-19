@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.info = exports.listByCategory = exports.searchLikeName = exports.updatePoster = exports.updateInfo = exports.remove = exports.add = void 0;
+exports.top10Newest = exports.newest = exports.list = exports.info = exports.listByCategory = exports.searchLikeName = exports.updatePoster = exports.updateInfo = exports.remove = exports.add = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const s3Client_1 = require("../../libs/s3Client");
 const movie_1 = __importDefault(require("../models/movie"));
@@ -233,6 +233,119 @@ const listByCategory = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.listByCategory = listByCategory;
+const newest = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        movie_1.default.findOne()
+            .sort({ _id: -1 })
+            .select("idMovie name description movieUrl posterUrl duration views")
+            .exec((error, data) => {
+            if (error) {
+                const e = {
+                    successful: false,
+                    message: `Error: ${error}`,
+                    data: null,
+                };
+                console.log(e);
+                return res.status(400).json(e);
+            }
+            else {
+                const response = {
+                    successful: true,
+                    message: `ok`,
+                    data: data,
+                };
+                return res.status(200).json(response);
+            }
+        });
+    }
+    catch (error) {
+        const e = {
+            successful: false,
+            message: `Error: ${error}`,
+            data: null,
+        };
+        console.log(e);
+        return res.status(400).json(e);
+    }
+});
+exports.newest = newest;
+const top10Newest = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        movie_1.default.find()
+            .sort({ _id: -1 })
+            .limit(10)
+            .select("idMovie name description movieUrl posterUrl duration views")
+            .exec((error, data) => {
+            if (error) {
+                const e = {
+                    successful: false,
+                    message: `Error: ${error}`,
+                    data: null,
+                };
+                console.log(e);
+                return res.status(400).json(e);
+            }
+            else {
+                const response = {
+                    successful: true,
+                    message: `ok`,
+                    data: data,
+                };
+                return res.status(200).json(response);
+            }
+        });
+    }
+    catch (error) {
+        const e = {
+            successful: false,
+            message: `Error: ${error}`,
+            data: null,
+        };
+        console.log(e);
+        return res.status(400).json(e);
+    }
+});
+exports.top10Newest = top10Newest;
+const list = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const listCategory = yield categoryMovie_1.default.find().select("_id name");
+        let mainList = [];
+        // const promise = new Promise((resolve, reject) => {
+        listCategory.map((item) => __awaiter(void 0, void 0, void 0, function* () {
+            const data = yield movie_1.default.find({ idCategory: item._id })
+                .select("idMovie name description movieUrl posterUrl duration views")
+                .limit(10);
+            if (data.length) {
+                const object = {
+                    name: item.name,
+                    list: data,
+                };
+                return mainList.push(object);
+            }
+        }));
+        setTimeout(() => {
+            const response = {
+                successful: true,
+                message: `ok`,
+                data: mainList,
+            };
+            return res.status(200).json(response);
+        }, 1000);
+        // });
+        // promise.then(() => {
+        // });
+    }
+    catch (error) {
+        const e = {
+            successful: false,
+            message: `Error: ${error}`,
+            data: null,
+        };
+        console.log(e);
+        return res.status(400).json(e);
+    }
+});
+exports.list = list;
 const info = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const idMovie = req.params.id;

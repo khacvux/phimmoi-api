@@ -41,6 +41,9 @@ routes.post("/add", uploadFile_1.default.fields([
         maxCount: 1,
     },
 ]), checkAuth_1.checkAuth, MOVIE.add);
+routes.get("/list", checkAuth_1.checkAuth, MOVIE.list);
+routes.get("/newest", checkAuth_1.checkAuth, MOVIE.newest);
+routes.get("/newest/list", checkAuth_1.checkAuth, MOVIE.top10Newest);
 routes.get("/category/:id", checkAuth_1.checkAuth, MOVIE.listByCategory);
 routes.delete("/delete/:id", checkAuth_1.checkAuth, MOVIE.remove);
 routes.get("/info/:id", checkAuth_1.checkAuth, MOVIE.info);

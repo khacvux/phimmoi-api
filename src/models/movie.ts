@@ -11,14 +11,18 @@ export interface IMovie {
 }
 
 export interface infoMovieModel extends IMovie {
-  category: any,
+  category: any;
 }
 
 export interface MovieModel extends IMovie, Document {
   posterFilename: string;
   movieFilename: string;
   idCategory: string;
+}
 
+export interface MainListModel {
+  name: string;
+  list: Array<MovieModel>;
 }
 
 const movieSchema = new Schema(
