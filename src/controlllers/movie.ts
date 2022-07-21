@@ -385,6 +385,7 @@ const play = async (req: Request, res: Response) => {
   try {
     const fileName = req.params.filename
     const stream = await createAWSStream(fileName)
+    // res.writeHead(206, stream)
     stream.pipe(res)
   } catch (error) {
     const e: IResponse = {

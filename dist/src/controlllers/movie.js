@@ -387,6 +387,7 @@ const play = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const fileName = req.params.filename;
         const stream = yield (0, s3Client_1.createAWSStream)(fileName);
+        // res.writeHead(206, stream)
         stream.pipe(res);
     }
     catch (error) {

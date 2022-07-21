@@ -36,7 +36,7 @@ const MONGO_URL = `mongodb+srv://${username}:${password}@phimmoi.2rsmb.mongodb.n
 const main = async () => {
   await ConnectDB(MONGO_URL);
 
-  app.use(morgan('tiny'))
+  app.use(morgan('dev'))
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
   app.use(cors());
