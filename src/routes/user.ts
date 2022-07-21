@@ -8,11 +8,11 @@ const routes = Router();
 routes.post("/login", USER.login);
 routes.post("/register", USER.register);
 routes.get("/library/list", checkAuth, USER.library);
-routes.put("/library/save/:idmovie", checkAuth, USER.saveToLibrary);
-routes.put("/library/unsave/:idmovie", checkAuth, USER.unsaveToLibrary);
+routes.get("/library/save/:idmovie", checkAuth, USER.saveToLibrary);
+routes.get("/library/unsave/:idmovie", checkAuth, USER.unsaveToLibrary);
 routes.get("/library/check/:idmovie", checkAuth, USER.checkSave)
 routes.post("/password/change", checkAuth, USER.changePassword);
-routes.put("/name/change/:newname", checkAuth, USER.changeName);
+routes.get("/name/change/:newname", checkAuth, USER.changeName);
 routes.post("/avatar/set", upload.single("avatar"), checkAuth, USER.setAvatar);
 
 
