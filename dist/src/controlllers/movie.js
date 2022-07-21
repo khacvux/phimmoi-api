@@ -330,7 +330,7 @@ const list = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 data: mainList,
             };
             return res.status(200).json(response);
-        }, 1000);
+        }, 2000);
         // });
         // promise.then(() => {
         // });

@@ -328,7 +328,7 @@ const list = async (req: Request, res: Response) => {
         data: mainList,
       };
       return res.status(200).json(response);
-    }, 1000);
+    }, 2000);
     // });
     // promise.then(() => {
 
