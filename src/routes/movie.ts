@@ -34,7 +34,7 @@ routes.post(
   checkAuth,
   MOVIE.updatePoster
 );
-routes.get("/play/:filename", MOVIE.play)
+routes.get("/play/:filename", MOVIE.play);
 // routes.get("/play", async (req, res) => {
 //   const stream = await createAWSStream("1658321300619-964087142-IMG_1240.MOV");
 //   console.log(stream)
