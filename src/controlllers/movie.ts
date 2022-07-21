@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import IResponse from "../models/response";
-import { deleteFile, uploadFile } from "../../libs/s3Client";
+import { createAWSStream, deleteFile, uploadFile } from "../../libs/s3Client";
 import Movie, {
   MovieModel,
   infoMovieModel,
@@ -301,7 +301,7 @@ const top10Newest = async (req: Request, res: Response) => {
     console.log(e);
     return res.status(400).json(e);
   }
-}
+};
 
 const list = async (req: Request, res: Response) => {
   try {
@@ -381,6 +381,22 @@ const info = async (req: Request, res: Response) => {
   }
 };
 
+const play = async (req: Request, res: Response) => {
+  try {
+    const fileName = req.params.filename
+    const stream = await createAWSStream(fileName)
+    stream.pipe(res)
+  } catch (error) {
+    const e: IResponse = {
+      successful: false,
+      message: `Error: ${error}`,
+      data: null,
+    };
+    console.log(e);
+    return res.status(400).json(e);
+  }
+};
+
 export {
   add,
   remove,
@@ -391,5 +407,6 @@ export {
   info,
   list,
   newest,
-  top10Newest
+  top10Newest,
+  play
 };

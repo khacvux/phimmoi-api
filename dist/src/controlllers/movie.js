@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.top10Newest = exports.newest = exports.list = exports.info = exports.listByCategory = exports.searchLikeName = exports.updatePoster = exports.updateInfo = exports.remove = exports.add = void 0;
+exports.play = exports.top10Newest = exports.newest = exports.list = exports.info = exports.listByCategory = exports.searchLikeName = exports.updatePoster = exports.updateInfo = exports.remove = exports.add = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const s3Client_1 = require("../../libs/s3Client");
 const movie_1 = __importDefault(require("../models/movie"));
@@ -383,3 +383,20 @@ const info = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.info = info;
+const play = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const fileName = req.params.filename;
+        const stream = yield (0, s3Client_1.createAWSStream)(fileName);
+        stream.pipe(res);
+    }
+    catch (error) {
+        const e = {
+            successful: false,
+            message: `Error: ${error}`,
+            data: null,
+        };
+        console.log(e);
+        return res.status(400).json(e);
+    }
+});
+exports.play = play;

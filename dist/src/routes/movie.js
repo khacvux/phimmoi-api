@@ -50,4 +50,10 @@ routes.get("/info/:id", checkAuth_1.checkAuth, MOVIE.info);
 routes.post("/update/info", checkAuth_1.checkAuth, MOVIE.updateInfo);
 routes.get("/search/:keyword", checkAuth_1.checkAuth, MOVIE.searchLikeName);
 routes.post("/update/poster", uploadFile_1.default.single("poster"), checkAuth_1.checkAuth, MOVIE.updatePoster);
+routes.get("/play/:filename", MOVIE.play);
+// routes.get("/play", async (req, res) => {
+//   const stream = await createAWSStream("1658321300619-964087142-IMG_1240.MOV");
+//   console.log(stream)
+//   stream.pipe(res);
+// });
 exports.default = routes;

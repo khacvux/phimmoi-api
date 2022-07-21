@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteFile = exports.uploadFile = void 0;
+exports.createAWSStream = exports.deleteFile = exports.uploadFile = void 0;
 const aws_sdk_1 = require("aws-sdk");
 const config_1 = __importDefault(require("../src/config/config"));
+const stream_1 = __importDefault(require("../src/utils/stream"));
 const fs_1 = __importDefault(require("fs"));
 const REGION = config_1.default.region;
 const BUCKET_NAME = config_1.default.bucket.name;
@@ -81,3 +82,26 @@ const deleteFile = (params) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.deleteFile = deleteFile;
+function createAWSStream(fileName) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Promise((resolve, reject) => {
+            const bucketParams = {
+                Bucket: BUCKET_NAME,
+                Key: fileName,
+            };
+            try {
+                s3.headObject(bucketParams, (error, data) => {
+                    if (error) {
+                        throw error;
+                    }
+                    const stream = new stream_1.default(bucketParams, s3, data.ContentLength);
+                    resolve(stream);
+                });
+            }
+            catch (error) {
+                reject(error);
+            }
+        });
+    });
+}
+exports.createAWSStream = createAWSStream;

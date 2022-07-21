@@ -1,5 +1,6 @@
 import { S3 } from "aws-sdk";
 import config from "../src/config/config";
+import streamVideo from "../src/utils/stream";
 import fs from "fs";
 
 interface fileModel {
@@ -37,7 +38,7 @@ const getSignedUrl = async (operation: string, params: objectParams) => {
     //   });
     // });
 
-    const url = `https://${BUCKET_NAME}.s3.${REGION}.amazonaws.com/${params.Key}`
+    const url = `https://${BUCKET_NAME}.s3.${REGION}.amazonaws.com/${params.Key}`;
     return url;
   } catch (error) {
     return error;
@@ -84,3 +85,23 @@ export const deleteFile = async (params: objectParams) => {
     return error;
   }
 };
+
+export async function createAWSStream(fileName: string): Promise<streamVideo> {
+  return new Promise((resolve, reject) => {
+    const bucketParams = {
+      Bucket: BUCKET_NAME,
+      Key: fileName,
+    };
+    try {
+      s3.headObject(bucketParams, (error, data: any) => {
+        if (error) {
+          throw error;
+        }
+        const stream = new streamVideo(bucketParams, s3, data.ContentLength);
+        resolve(stream);
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
