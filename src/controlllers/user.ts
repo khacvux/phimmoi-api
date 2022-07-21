@@ -137,7 +137,7 @@ const saveToLibrary = (req: any, res: Response) => {
     const { id } = req.decodedToken;
     const idMovie = req.params.idmovie;
 
-    Movie.findOne({ idMovie })
+    Movie.findOne({ _id: idMovie })
       .select("name posterUrl")
       .exec(async (error, film) => {
         if (error) {

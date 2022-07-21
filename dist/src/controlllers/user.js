@@ -150,7 +150,7 @@ const saveToLibrary = (req, res) => {
     try {
         const { id } = req.decodedToken;
         const idMovie = req.params.idmovie;
-        movie_1.default.findOne({ idMovie })
+        movie_1.default.findOne({ _id: idMovie })
             .select("name posterUrl")
             .exec((error, film) => __awaiter(void 0, void 0, void 0, function* () {
             if (error) {
