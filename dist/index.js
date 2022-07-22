@@ -42,9 +42,9 @@ const MONGO_URL = `mongodb+srv://${username}:${password}@phimmoi.2rsmb.mongodb.n
 // }
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, mongo_1.ConnectDB)(MONGO_URL);
-    app.use((0, morgan_1.default)("dev"));
+    app.use((0, morgan_1.default)("tiny"));
     app.use(body_parser_1.default.json());
-    app.use(body_parser_1.default.urlencoded({ extended: true, limit: "50mb" }));
+    app.use(body_parser_1.default.urlencoded({ extended: true, limit: "16gb" }));
     app.use((0, cors_1.default)());
     // app.use("/docs-api",
     //   swaggerUi.serve,

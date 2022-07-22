@@ -8,7 +8,7 @@ const jsonwebtoken_1 = require("jsonwebtoken");
 const config_1 = __importDefault(require("../config/config"));
 const createToken = (id) => {
     return (0, jsonwebtoken_1.sign)({ id }, config_1.default.jwt.accesskey, {
-        expiresIn: "24h",
+        expiresIn: "7d",
     });
 };
 exports.createToken = createToken;

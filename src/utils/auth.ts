@@ -6,7 +6,7 @@ import { IUserModel } from "../models/user";
 
 export const createToken = (id: Types.ObjectId) => {
   return sign({ id }, config.jwt.accesskey as Secret, {
-    expiresIn: "24h",
+    expiresIn: "7d",
   });
 };
 
